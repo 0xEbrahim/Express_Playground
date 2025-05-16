@@ -1,5 +1,5 @@
 import express from "express";
-import { AppRouter } from "./App.Router";
+import { AppRouter } from "./Config/App.Router";
 
 const app = express();
 const router = AppRouter.getInstance;

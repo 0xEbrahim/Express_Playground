@@ -1,4 +1,4 @@
-import { MetadataKeys } from "../Enums/Metadata.Keys";
+import { MetadataKeys } from "../Enums/Metadata.keys";
 import { Methods } from "../Enums/Request.methods";
 
 function Request(method: Methods) {
