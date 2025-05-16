@@ -1,10 +1,13 @@
-class Cons {
-  login() {}
-  logout() {}
-}
+import express from "express";
+import { AppRouter } from "./App.Router";
 
-const pro = Cons.prototype;
-console.log(pro);
-for (let key in pro) console.log(key);
+const app = express();
+const router = AppRouter.getInstance;
 
-console.log("Worked");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(router);
+
+app.listen(3000, () => {
+  console.log("Server started running at PORT 3000");
+});
