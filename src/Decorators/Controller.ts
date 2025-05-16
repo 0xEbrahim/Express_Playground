@@ -1,13 +1,16 @@
 import "reflect-metadata";
-import { MetadataKeys } from "../Enums/Metadata.keys";
 import { AppRouter } from "../Config/App.Router";
 import { Methods } from "../Enums/Request.methods";
+import { MetadataKeys } from "../Enums/Metadata.keys";
 
 export function Controller(prefix: string) {
   return (constructor: Function) => {
-    const prototype = constructor.prototype;
     const router = AppRouter.getInstance;
-    for (let key in prototype) {
+    const prototype = constructor.prototype;
+    const keys = Object.getOwnPropertyNames(prototype).filter(
+      (e) => e !== "constructor"
+    );
+    for (const key of keys) {
       const method: Methods = Reflect.getMetadata(
         MetadataKeys.Method,
         prototype,
@@ -18,9 +21,11 @@ export function Controller(prefix: string) {
         prototype,
         key
       );
-      const middleware =
+      const middlewares =
         Reflect.getMetadata(MetadataKeys.Middleware, prototype, key) || [];
-      router[method](prefix + route, ...middleware, prototype[key]);
+      const guards =
+        Reflect.getMetadata(MetadataKeys.Guard, prototype, key) || [];
+      router[method](prefix + route, ...guards, ...middlewares, prototype[key]);
     }
   };
 }
