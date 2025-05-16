@@ -6,8 +6,8 @@ interface requestHandlerDescriptor extends PropertyDescriptor {
   value?: RequestHandler;
 }
 
-function routeBundler(method: Methods) {
-  return function RequestTo(route: string) {
+function Request(method: Methods) {
+  return function To(route: string) {
     return (target: any, key: string, desc: requestHandlerDescriptor) => {
       Reflect.defineMetadata(MetadataKeys.Method, method, target, key);
       Reflect.defineMetadata(MetadataKeys.Route, route, target, key);
@@ -15,8 +15,8 @@ function routeBundler(method: Methods) {
   };
 }
 
-export const Get = routeBundler(Methods.Get);
-export const Post = routeBundler(Methods.Post);
-export const Delete = routeBundler(Methods.Delete);
-export const Put = routeBundler(Methods.Put);
-export const Patch = routeBundler(Methods.Patch);
+export const Get = Request(Methods.Get);
+export const Post = Request(Methods.Post);
+export const Delete = Request(Methods.Delete);
+export const Put = Request(Methods.Put);
+export const Patch = Request(Methods.Patch);
